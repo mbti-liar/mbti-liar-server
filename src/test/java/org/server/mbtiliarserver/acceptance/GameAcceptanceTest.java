@@ -5,6 +5,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.server.mbtiliarserver.game.application.dto.PenaltyResponse;
 import org.server.mbtiliarserver.game.application.dto.VoteRequest;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled
 public class GameAcceptanceTest extends AcceptanceTest {
     String 공유코드;
 

@@ -3,6 +3,7 @@ package org.server.mbtiliarserver.acceptance;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.server.mbtiliarserver.DataLoader;
 import org.server.mbtiliarserver.utils.DatabaseCleanup;
 import org.springframework.beans.factory.annotation.Autowired;
