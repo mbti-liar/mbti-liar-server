@@ -1,10 +1,10 @@
 package org.server.mbtiliarserver.game.application;
 
-import org.server.mbtiliarserver.game.application.dto.GameResponse;
 import org.server.mbtiliarserver.game.domain.Game;
 import org.server.mbtiliarserver.game.domain.GameRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -16,28 +16,16 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public GameResponse start(String sharingCode) {
-        return null;
-    }
-
     public Game create() {
         String uuid = UUID.randomUUID().toString();
-        return new Game(uuid.substring(0, 5));
-    }
-
-    public void entrance(String sharingCode) {
-
+        return gameRepository.save(new Game("INFJ", null, true, new ArrayList<>(), new ArrayList<>(), 0L, new ArrayList<>(), new ArrayList<>(), uuid.substring(0, 5)));
     }
 
     public void delete(String sharingCode) {
-
-    }
-
-    public Long findAmount(String sharingCode) {
-        return null;
+        gameRepository.delete(sharingCode);
     }
 
     public Game findGame(String sharingCode) {
-        return null;
+        return gameRepository.findBySharingCode(sharingCode).orElseThrow(IllegalArgumentException::new);
     }
 }
