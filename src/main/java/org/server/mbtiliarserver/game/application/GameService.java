@@ -37,6 +37,6 @@ public class GameService {
     }
 
     public Penalty getPenalty() {
-        return null;
+        return new Penalty("옆 사람이 벌칙 정해주기~");
     }
 }
