@@ -18,12 +18,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
@@ -32,6 +27,7 @@ import static java.util.Objects.requireNonNull;
 @ServerEndpoint(value = "/games")
 public class WebSocketClient {
     private static final Logger log = LoggerFactory.getLogger(WebSocketClient.class);
+    private static final Random random = new Random();
     private final ObjectMapper objectMapper;
     private final GameService gameService;
     private final QuestionService questionService;
@@ -80,16 +76,24 @@ public class WebSocketClient {
                 List<Question> questions = questionService.getQuestions();
                 Game finalGame = game;
                 List<Question> collect = questions.stream().filter(question -> !finalGame.getCompletedQuestions().contains(question)).collect(Collectors.toList());
-                Question question = collect.get(0);
+                int questionIdx = random.nextInt(collect.size());
+                Question question = collect.get(questionIdx);
+
                 game.getCompletedQuestions().add(question);
 
                 // 라이어를 선정해 응답으로 보낸다.
-                Liar liar = gameService.selectLiar(socketMessage.getSharingCode());
-                game.setLiar(liar.getId());
-
                 Map<String, Object> params = new HashMap<>();
+                Liar liar;
+                if (game.getLiarId() == null) {
+                    liar = gameService.selectLiar(socketMessage.getSharingCode());
+                    game.setLiar(liar.getId());
+                } else {
+                    liar = new Liar(game.getLiarId());
+                }
+
                 params.put("questionResponse", question.getQuestion());
                 params.put("liarResponse", liar.getId());
+
                 send(session, socketMessage.getSharingCode(), SocketMessageType.GAME_START, objectMapper.writeValueAsString(params));
                 break;
             case REQUEST_VOTE_PROGRESS:
