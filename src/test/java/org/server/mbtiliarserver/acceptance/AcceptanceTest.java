@@ -1,5 +1,6 @@
 package org.server.mbtiliarserver.acceptance;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.server.mbtiliarserver.DataLoader;
@@ -21,6 +22,8 @@ public class AcceptanceTest {
     private DataLoader dataLoader;
 
     String 관리자;
+
+    protected ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     public void setUp() {
