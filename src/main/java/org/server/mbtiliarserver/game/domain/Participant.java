@@ -2,19 +2,22 @@ package org.server.mbtiliarserver.game.domain;
 
 public class Participant {
 
-    Long id;
-    String nickName;
+    private Long id;
+    private String nickname;
 
-    public Participant(Long id, String nickName) {
+    public Participant(Long id, String nickname) {
+        if(nickname == null || nickname.isBlank()){
+            throw new IllegalArgumentException();
+        }
         this.id = id;
-        this.nickName = nickName;
+        this.nickname = nickname;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 }

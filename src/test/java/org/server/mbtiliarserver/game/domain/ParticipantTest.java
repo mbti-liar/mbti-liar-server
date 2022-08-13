@@ -15,6 +15,6 @@ class ParticipantTest {
         Participant participant = new Participant(id, 닉네임);
 
         Assertions.assertThat(participant.getId()).isEqualTo(id);
-        Assertions.assertThat(participant.getNickName()).isEqualTo(닉네임);
+        Assertions.assertThat(participant.getNickname()).isEqualTo(닉네임);
     }
 }
