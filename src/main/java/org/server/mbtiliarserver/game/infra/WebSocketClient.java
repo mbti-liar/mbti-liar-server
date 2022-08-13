@@ -104,7 +104,7 @@ public class WebSocketClient {
                 requireNonNull(game).getVotes().add(objectMapper.readValue(socketMessage.getMessage(), Boolean.class));
                 if (game.getVotes().size() == game.getParticipants().size()) {
                     // 투표 메시지를 다 받으면 진행할지 말지 결정합니다.
-                    int trueSize = game.getVotes().stream().filter(aBoolean -> aBoolean.equals(true)).collect(Collectors.toList()).size();
+                    int trueSize = (int) game.getVotes().stream().filter(aBoolean -> aBoolean.equals(true)).count();
                     boolean isProgress = game.getParticipants().size() / 2 < trueSize;
                     send(session, socketMessage.getSharingCode(), SocketMessageType.VOTE_PROGRESS, objectMapper.writeValueAsString(isProgress));
                 }
