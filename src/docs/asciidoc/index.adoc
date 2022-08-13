@@ -21,3 +21,8 @@ operation::game/entrance[snippets='http-request,http-response']
 === 게임 종료
 
 operation::game/delete[snippets='http-request,http-response']
+
+
+=== 질문 조회
+
+operation::questions[snippets='http-request,http-response']
