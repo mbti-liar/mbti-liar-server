@@ -68,9 +68,14 @@ public class ParsingTest {
 
     @Test
     void voteLiar() throws JsonProcessingException {
-        SocketMessage request = new SocketMessage("DDSW12", SocketMessageType.ENTRANCE, null, "nickname");
+        SocketMessage request = new SocketMessage("DDSW12", SocketMessageType.ENTRANCE, 2L, "3");
         System.out.println(objectMapper.writeValueAsString(request));
-        SocketMessage response = new SocketMessage("DDSW12", SocketMessageType.ENTRANCE, 3L, null);
+
+        Map<String, Object> resultParams = new HashMap<>();
+        resultParams.put("selectedUser", "2");
+        resultParams.put("penalty", "옆 사람이 벌칙 정해주기");
+
+        SocketMessage response = new SocketMessage("DDSW12", SocketMessageType.ENTRANCE, 3L, objectMapper.writeValueAsString(resultParams));
         System.out.println(objectMapper.writeValueAsString(response));
     }
 }
