@@ -3,6 +3,7 @@ package org.server.mbtiliarserver.documentation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.server.mbtiliarserver.game.application.GameService;
+import org.server.mbtiliarserver.game.application.VoterService;
 import org.server.mbtiliarserver.game.application.dto.GameResponse;
 import org.server.mbtiliarserver.game.application.dto.LiarResponse;
 import org.server.mbtiliarserver.game.application.dto.MbtiResponse;
@@ -35,6 +36,9 @@ public class GameDocumentation extends Documentation {
 
     @MockBean
     private GameService gameService;
+
+    @MockBean
+    private VoterService voterService;
 
 
     @Test
@@ -71,7 +75,7 @@ public class GameDocumentation extends Documentation {
 
         PenaltyResponse 벌칙받는_사람 = new PenaltyResponse(2L, "술 마시기");
         PenaltiesResponse value = new PenaltiesResponse(List.of(벌칙받는_사람));
-        when(gameService.voteLiar(any())).thenReturn(value);
+        when(voterService.voteLiar(any())).thenReturn(value);
 
         Map<String, String> params = new HashMap<>();
         params.put("votesRequest", objectMapper.writeValueAsString(votesRequest));
@@ -92,7 +96,7 @@ public class GameDocumentation extends Documentation {
     @Test
     void voteProgress() throws JsonProcessingException {
         ProgressResponse value = new ProgressResponse(true);
-        when(gameService.voteProgress(any())).thenReturn(value);
+        when(voterService.voteProgress(any())).thenReturn(value);
 
         VoteRequest<Boolean> 첫_번째_투표 = new VoteRequest<>(1L, true);
         VoteRequest<Boolean> 두_번쨰_투표 = new VoteRequest<>(2L, false);

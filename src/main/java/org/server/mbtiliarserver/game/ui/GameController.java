@@ -24,13 +24,5 @@ public class GameController {
         return ResponseEntity.ok(gameService.start(gameRequest));
     }
 
-    @PostMapping("votes/progress")
-    public ResponseEntity<ProgressResponse> voteProgress(@RequestBody VotesRequest<Boolean> voteRequest) {
-        return ResponseEntity.ok(gameService.voteProgress(voteRequest));
-    }
 
-    @PostMapping("votes/liar")
-    public ResponseEntity<PenaltiesResponse> voteLiar(@RequestBody VotesRequest<Long> voteRequest) {
-        return ResponseEntity.ok(gameService.voteLiar(voteRequest));
-    }
 }
