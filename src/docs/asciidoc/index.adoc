@@ -17,9 +17,21 @@ operation::game/create[snippets='http-request,http-response']
 
 operation::game/entrance[snippets='http-request,http-response']
 
-=== 게임 종료
+=== 게임룸 반납
 
 operation::game/delete[snippets='http-request,http-response']
+
+=== 게임 시작
+
+operation::game/start[snippets='http-request,http-response']
+
+=== 라이어 투표
+
+operation::vote/liar[snippets='http-request,http-response']
+
+=== 진행 여부 투표
+
+operation::vote/progress[snippets='http-request,http-response']
 
 == 질문
 

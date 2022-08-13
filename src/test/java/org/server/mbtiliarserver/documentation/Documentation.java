@@ -1,5 +1,6 @@
 package org.server.mbtiliarserver.documentation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -17,9 +18,8 @@ public class Documentation {
 
     @LocalServerPort
     int port;
-
+    protected static final ObjectMapper objectMapper = new ObjectMapper();
     protected RequestSpecification spec;
-
     protected RequestSpecification given() {
         return RestAssured.given(spec).log().all();
     }
