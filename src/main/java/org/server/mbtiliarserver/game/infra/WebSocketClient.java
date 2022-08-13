@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.server.mbtiliarserver.game.application.GameService;
 import org.server.mbtiliarserver.game.application.LiarService;
 import org.server.mbtiliarserver.game.application.VoterService;
-import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
 import org.server.mbtiliarserver.game.application.dto.LiarResponse;
 import org.server.mbtiliarserver.game.domain.Game;
 import org.server.mbtiliarserver.game.domain.Participant;
@@ -21,12 +20,10 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -111,7 +108,7 @@ public class WebSocketClient {
                 break;
             case VOTE_LIAR:
                 // 투표 메시지를 받는다.
-                requireNonNull(game).getSelectedParticipants().add(objectMapper.writeValueAsString(socketMessage.getMessage(), Long.getLong()));
+                requireNonNull(game).getSelectedParticipants().add(objectMapper.readValue(socketMessage.getMessage(), Long.class));
                 if (game.getSelectedParticipants().size() == game.getParticipants().size()) {
                     // 투표 메시지가 방 인원과 맞는 경우 결과를 반환한다.
                     Map<Long, Integer> result = new HashMap<>();
