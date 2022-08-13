@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MbtiLiarServerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MbtiLiarServerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MbtiLiarServerApplication.class, args);
+    }
 
 }
