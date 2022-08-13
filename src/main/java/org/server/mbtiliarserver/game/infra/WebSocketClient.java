@@ -2,8 +2,6 @@ package org.server.mbtiliarserver.game.infra;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.server.mbtiliarserver.game.application.GameService;
-import org.server.mbtiliarserver.game.application.LiarService;
-import org.server.mbtiliarserver.game.application.VoterService;
 import org.server.mbtiliarserver.game.domain.Game;
 import org.server.mbtiliarserver.game.domain.Liar;
 import org.server.mbtiliarserver.game.domain.Participant;
@@ -36,19 +34,15 @@ public class WebSocketClient {
     private final ObjectMapper objectMapper;
     private final GameService gameService;
     private final QuestionService questionService;
-    private final VoterService voterService;
-    private final LiarService liarService;
     private static Long sequence = 0L;
 
     private static final Set<GameSession> clients =
         Collections.synchronizedSet(new HashSet<>());
 
-    public WebSocketClient(ObjectMapper objectMapper, GameService gameService, QuestionService questionService, VoterService voterService, LiarService liarService) {
+    public WebSocketClient(ObjectMapper objectMapper, GameService gameService, QuestionService questionService) {
         this.objectMapper = objectMapper;
         this.gameService = gameService;
         this.questionService = questionService;
-        this.voterService = voterService;
-        this.liarService = liarService;
     }
 
 
@@ -89,7 +83,7 @@ public class WebSocketClient {
                 game.getCompletedQuestions().add(question);
 
                 // 라이어를 선정해 응답으로 보낸다.
-                Liar liar = liarService.selectLiar(socketMessage.getSharingCode());
+                Liar liar = gameService.selectLiar(socketMessage.getSharingCode());
                 game.setLiar(liar.getId());
 
                 Map<String, Object> params = new HashMap<>();
@@ -109,8 +103,11 @@ public class WebSocketClient {
                 if (game.getVotes().size() == game.getParticipants().size()) {
                     // 투표 메시지를 다 받으면 진행할지 말지 결정합니다.
                     int trueSize = (int) game.getVotes().stream().filter(aBoolean -> aBoolean.equals(true)).count();
-                    boolean isProgress = game.getParticipants().size() / 2 < trueSize;
-                    send(session, socketMessage.getSharingCode(), SocketMessageType.VOTE_PROGRESS, objectMapper.writeValueAsString(isProgress));
+                    if (game.getParticipants().size() / 2 < trueSize) {
+                        send(session, socketMessage.getSharingCode(), SocketMessageType.GAME_START, null);
+                    } else {
+                        send(session, socketMessage.getSharingCode(), SocketMessageType.VOTE_LIAR, null);
+                    }
                 }
                 break;
             case VOTE_LIAR:
@@ -128,9 +125,9 @@ public class WebSocketClient {
                             }
                         }
                     );
-
                     // 게임을 종료한다.
-                    send(session, socketMessage.getSharingCode(), SocketMessageType.VOTE_LIAR, null);
+                    gameService.delete(socketMessage.getSharingCode());
+                    send(session, socketMessage.getSharingCode(), SocketMessageType.END, null);
                 }
                 break;
         }

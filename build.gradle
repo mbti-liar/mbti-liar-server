@@ -6,10 +6,6 @@ plugins {
 }
 
 
-configurations {
-    asciidoctorExt
-}
-
 group = 'org.server'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
@@ -19,56 +15,17 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
     runtimeOnly 'com.h2database:h2'
 
-    // rest docs
-    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured:2.0.5.RELEASE'
-
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.rest-assured:rest-assured:4.2.0'
-
 }
 
-
-ext {
-    snippetsDir = file('build/generated-snippets')
-}
 
 test {
     useJUnitPlatform()
-    outputs.dir snippetsDir
-}
-
-task testDocument(type: Test) {
-    useJUnitPlatform()
-    filter {
-        includeTestsMatching "*.documentation.*"
-    }
-}
-
-asciidoctor {
-    inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
-    dependsOn test
-}
-
-bootJar {
-    dependsOn asciidoctor
-    from("${asciidoctor.outputDir}/html5") {
-        into 'static/docs'
-    }
-}
-
-task copyDocument(type: Copy) {
-    dependsOn asciidoctor
-
-    from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs")
 }

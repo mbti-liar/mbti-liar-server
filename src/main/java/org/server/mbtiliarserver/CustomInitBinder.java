@@ -2,10 +2,12 @@ package org.server.mbtiliarserver;
 
 import org.server.mbtiliarserver.question.domain.Question;
 import org.server.mbtiliarserver.question.domain.QuestionRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.InitBinder;
 
 import java.util.Arrays;
 
+@Component
 public class CustomInitBinder {
 
     private final QuestionRepository questionRepository;
