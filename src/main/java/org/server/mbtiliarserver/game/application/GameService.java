@@ -27,4 +27,8 @@ public class GameService {
     public Long findAmount(String sharingCode) {
         return null;
     }
+
+    public Game findGame(String sharingCode) {
+        return null;
+    }
 }
