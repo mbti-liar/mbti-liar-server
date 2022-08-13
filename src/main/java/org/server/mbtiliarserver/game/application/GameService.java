@@ -8,29 +8,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class GameService {
 
     private final GameRepository gameRepository;
     private final String[] mbti = {
-            "ENFJ", "ENTJ", "ENFP",
-            "ENTP", "ESFP", "ESFJ",
-            "ESTP", "ESTJ", "INFP",
-            "INFJ", "INTP", "ISTP",
-            "ISFP", "ISFJ", "ISTJ",
-            "INTJ"};
+        "ENFJ", "ENTJ", "ENFP",
+        "ENTP", "ESFP", "ESFJ",
+        "ESTP", "ESTJ", "INFP",
+        "INFJ", "INTP", "ISTP",
+        "ISFP", "ISFJ", "ISTJ",
+        "INTJ"};
 
     public GameService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
     }
 
-    public Game create() {
-        String uuid = UUID.randomUUID().toString();
+    public Game create(String sharingCode) {
         double random = Math.random();
-        int idx = (int)Math.round(random * (mbti.length-1));
-        return gameRepository.save(new Game(mbti[idx], null, true, new ArrayList<>(), new ArrayList<>(), 0L, new ArrayList<>(), new ArrayList<>(), uuid.substring(0, 5)));
+        int idx = (int) Math.round(random * (mbti.length - 1));
+        return gameRepository.save(new Game(mbti[idx], null, true, new ArrayList<>(), new ArrayList<>(), 0L, new ArrayList<>(), new ArrayList<>(), sharingCode));
     }
 
     public void delete(String sharingCode) {

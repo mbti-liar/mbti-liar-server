@@ -14,9 +14,9 @@ public class ParsingTest {
 
     @Test
     void create() throws JsonProcessingException {
-        SocketMessage request = new SocketMessage(null, SocketMessageType.CREATE, null, null);
+        SocketMessage request = new SocketMessage("SSK23L", SocketMessageType.CREATE, null, "nickname");
         System.out.println(objectMapper.writeValueAsString(request));
-        SocketMessage response = new SocketMessage("ASF2S", SocketMessageType.CREATE, 2L, null);
+        SocketMessage response = new SocketMessage("SSK23L", SocketMessageType.CREATE, 2L, null);
         System.out.println(objectMapper.writeValueAsString(response));
     }
 

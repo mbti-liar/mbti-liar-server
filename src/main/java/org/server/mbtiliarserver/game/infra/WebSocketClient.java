@@ -18,7 +18,13 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
@@ -61,7 +67,7 @@ public class WebSocketClient {
         switch (socketMessage.getType()) {
             case CREATE:
                 // 방 생성을 요청하면 방을 생성하고, 방 코드를 부여한다.
-                game = gameService.create();
+                game = gameService.create(socketMessage.getSharingCode());
                 requireNonNull(game).getParticipants().add(new Participant(findSession(session).getId(), socketMessage.getMessage()));
                 send(session, game.getSharingCode(), SocketMessageType.CREATE, null);
                 break;
