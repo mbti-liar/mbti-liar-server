@@ -1,6 +1,6 @@
-package org.server.mbtiliarserver.game.application;
+package org.server.mbtiliarserver.gameroom.application;
 
-import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
+import org.server.mbtiliarserver.gameroom.application.dto.GameRoomResponse;
 import org.springframework.stereotype.Service;
 
 @Service

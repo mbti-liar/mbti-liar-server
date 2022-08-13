@@ -1,8 +1,8 @@
 package org.server.mbtiliarserver.documentation;
 
 import org.junit.jupiter.api.Test;
-import org.server.mbtiliarserver.game.application.GameRoomService;
-import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
+import org.server.mbtiliarserver.gameroom.application.GameRoomService;
+import org.server.mbtiliarserver.gameroom.application.dto.GameRoomResponse;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 

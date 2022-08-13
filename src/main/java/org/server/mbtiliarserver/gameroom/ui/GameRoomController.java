@@ -1,7 +1,7 @@
-package org.server.mbtiliarserver.game.ui;
+package org.server.mbtiliarserver.gameroom.ui;
 
-import org.server.mbtiliarserver.game.application.GameRoomService;
-import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
+import org.server.mbtiliarserver.gameroom.application.GameRoomService;
+import org.server.mbtiliarserver.gameroom.application.dto.GameRoomResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

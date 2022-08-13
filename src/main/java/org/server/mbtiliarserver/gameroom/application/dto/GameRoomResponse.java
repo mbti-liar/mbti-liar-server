@@ -1,4 +1,4 @@
-package org.server.mbtiliarserver.game.application.dto;
+package org.server.mbtiliarserver.gameroom.application.dto;
 
 public class GameRoomResponse {
     private String sharingCode;
