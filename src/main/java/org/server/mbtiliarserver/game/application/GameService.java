@@ -43,7 +43,9 @@ public class GameService {
 
     public Liar selectLiar(String sharingCode) {
         Game game = gameRepository.findBySharingCode(sharingCode).orElseThrow(IllegalArgumentException::new);
-        return new Liar(game.getParticipants().get(0).getId());
+        Random random = new Random();
+        int liarIdx = random.nextInt(game.getParticipants().size());
+        return new Liar(game.getParticipants().get(liarIdx).getId());
     }
 
     public Penalty getPenalty() {
