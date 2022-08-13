@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GameService {
-    public GameResponse start(GameRequest gameRequest) {
+    public GameResponse start(String sharingCode) {
         return null;
     }
 

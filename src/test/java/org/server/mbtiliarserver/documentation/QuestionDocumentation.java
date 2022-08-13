@@ -20,13 +20,14 @@ public class QuestionDocumentation extends Documentation {
 
     @Test
     void getQuestion() {
-        when(questionService.getQuestion()).thenReturn(new QuestionResponse("오늘따라 기분이 좋아"));
+        String sharingCode = "AS23KS";
+        when(questionService.getQuestion(sharingCode)).thenReturn(new QuestionResponse("오늘따라 기분이 좋아"));
 
         given()
             .filter(document("questions",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint())))
-            .when().get("/questions")
+            .when().get("/questions/{sharingCode}", sharingCode)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract();

@@ -5,6 +5,7 @@ import org.server.mbtiliarserver.game.application.dto.PenaltiesResponse;
 import org.server.mbtiliarserver.game.application.dto.ProgressResponse;
 import org.server.mbtiliarserver.game.application.dto.VotesRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +20,15 @@ public class VoteController {
         this.voterService = voterService;
     }
 
-    @PostMapping("progress")
-    public ResponseEntity<ProgressResponse> voteProgress(@RequestBody VotesRequest<Boolean> voteRequest) {
-        return ResponseEntity.ok(voterService.voteProgress(voteRequest));
+    @PostMapping("progress/{sharingCode}")
+    public ResponseEntity<ProgressResponse> voteProgress(@RequestBody VotesRequest<Boolean> voteRequest,
+                                                         @PathVariable String sharingCode) {
+        return ResponseEntity.ok(voterService.voteProgress(voteRequest, sharingCode));
     }
 
-    @PostMapping("liar")
-    public ResponseEntity<PenaltiesResponse> voteLiar(@RequestBody VotesRequest<Long> voteRequest) {
-        return ResponseEntity.ok(voterService.voteLiar(voteRequest));
+    @PostMapping("liar/{sharingCode}")
+    public ResponseEntity<PenaltiesResponse> voteLiar(@RequestBody VotesRequest<Long> voteRequest,
+                                                      @PathVariable String sharingCode) {
+        return ResponseEntity.ok(voterService.voteLiar(voteRequest, sharingCode));
     }
 }

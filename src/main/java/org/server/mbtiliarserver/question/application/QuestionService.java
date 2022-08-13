@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionService {
-    public QuestionResponse getQuestion() {
+    public QuestionResponse getQuestion(String sharingCode) {
         return null;
     }
 }

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class VoterService {
-    public PenaltiesResponse voteLiar(VotesRequest<Long> voteRequest) {
+    public PenaltiesResponse voteLiar(VotesRequest<Long> voteRequest, String sharingCode) {
         return null;
     }
 
-    public ProgressResponse voteProgress(VotesRequest<Boolean> voteRequest) {
+    public ProgressResponse voteProgress(VotesRequest<Boolean> voteRequest, String sharingCode) {
         return null;
     }
 }
