@@ -3,6 +3,7 @@ package org.server.mbtiliarserver;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.InitBinder;
 
 @Component
 public class DataLoaderBootstrap implements ApplicationListener<ContextRefreshedEvent> {

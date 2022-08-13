@@ -3,7 +3,7 @@ package org.server.mbtiliarserver.game.domain;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Collections;
 
 class GameTest {
 
@@ -18,7 +18,7 @@ class GameTest {
         Long liarId = 1L;
         boolean gameProgress = true;
 
-        Game game = new Game(mbtiCard, liarId, gameProgress);
+        Game game = new Game(mbtiCard, liarId, gameProgress, Collections.emptyList());
 
         Assertions.assertThat(game.getMbtiCard()).isEqualTo(mbtiCard);
         Assertions.assertThat(game.getLiarId()).isEqualTo(liarId);
