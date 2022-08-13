@@ -15,8 +15,9 @@ public class Game {
     private Long requestCount;
     private List<Boolean> votes;
     private List<Long> selectedParticipants;
+    private String sharingCode;
 
-    public Game(String mbtiCard, Long liarId, boolean gameProgress, List<Participant> participants, List<Question> completedQuestions, Long requestCount, List<Boolean> votes, List<Long> selectedParticipants) {
+    public Game(String mbtiCard, Long liarId, boolean gameProgress, List<Participant> participants, List<Question> completedQuestions, Long requestCount, List<Boolean> votes, List<Long> selectedParticipants, String sharingCode) {
         if(mbtiCard == null || mbtiCard.isBlank()){
             throw new mbtiCardNotNullAndBlankException("mbtiCard는 비어 있을 수 없습니다.");
         }
@@ -32,6 +33,11 @@ public class Game {
         this.requestCount = requestCount;
         this.votes = votes;
         this.selectedParticipants = selectedParticipants;
+        this.sharingCode = sharingCode;
+    }
+
+    public Game(String sharingCode) {
+        this.sharingCode = sharingCode;
     }
 
     public String getMbtiCard() {
@@ -68,5 +74,9 @@ public class Game {
 
     public void addCount() {
         this.requestCount += 1L;
+    }
+
+    public String getSharingCode() {
+        return sharingCode;
     }
 }

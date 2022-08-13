@@ -14,9 +14,9 @@ public class GameService {
         return null;
     }
 
-    public GameRoomResponse create() {
+    public Game create() {
         String uuid = UUID.randomUUID().toString();
-        return new GameRoomResponse(uuid.substring(0, 5));
+        return new Game(uuid.substring(0, 5));
     }
 
     public void entrance(String sharingCode) {
