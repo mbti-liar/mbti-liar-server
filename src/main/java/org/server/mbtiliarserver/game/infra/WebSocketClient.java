@@ -72,11 +72,12 @@ public class WebSocketClient {
             case CREATE:
                 // 방 생성을 요청하면 방을 생성하고, 방 코드를 부여한다.
                 GameRoomResponse gameRoomResponse = gameService.create();
+                requireNonNull(game).getParticipants().add(new Participant(findSession(session).getId(), socketMessage.getMessage()));
                 send(session, gameRoomResponse.getSharingCode(), SocketMessageType.CREATE, null);
                 break;
             case ENTRANCE:
                 // 입장하면 방 코드 번호와 아이디를 부여받는다.
-                requireNonNull(game).getParticipants().add(new Participant(findSession(session).getId(), socketMessage.getMessage()))
+                requireNonNull(game).getParticipants().add(new Participant(findSession(session).getId(), socketMessage.getMessage()));
                 gameService.entrance(socketMessage.getSharingCode());
                 send(session, socketMessage.getSharingCode(), SocketMessageType.ENTRANCE, null);
                 break;
