@@ -7,12 +7,20 @@ import org.server.mbtiliarserver.game.domain.Penalty;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
 public class GameService {
 
     private final GameRepository gameRepository;
+    private final String[] mbti = {
+            "ENFJ", "ENTJ", "ENFP",
+            "ENTP", "ESFP", "ESFJ",
+            "ESTP", "ESTJ", "INFP",
+            "INFJ", "INTP", "ISTP",
+            "ISFP", "ISFJ", "ISTJ",
+            "INTJ"};
 
     public GameService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
@@ -20,7 +28,9 @@ public class GameService {
 
     public Game create() {
         String uuid = UUID.randomUUID().toString();
-        return gameRepository.save(new Game("INFJ", null, true, new ArrayList<>(), new ArrayList<>(), 0L, new ArrayList<>(), new ArrayList<>(), uuid.substring(0, 5)));
+        double random = Math.random();
+        int idx = (int)Math.round(random * (mbti.length-1));
+        return gameRepository.save(new Game(mbti[idx], null, true, new ArrayList<>(), new ArrayList<>(), 0L, new ArrayList<>(), new ArrayList<>(), uuid.substring(0, 5)));
     }
 
     public void delete(String sharingCode) {
@@ -33,7 +43,9 @@ public class GameService {
 
     public Liar selectLiar(String sharingCode) {
         Game game = gameRepository.findBySharingCode(sharingCode).orElseThrow(IllegalArgumentException::new);
-        return new Liar(game.getParticipants().get(0).getId());
+        Random random = new Random();
+        int liarIdx = random.nextInt(game.getParticipants().size());
+        return new Liar(game.getParticipants().get(liarIdx).getId());
     }
 
     public Penalty getPenalty() {
