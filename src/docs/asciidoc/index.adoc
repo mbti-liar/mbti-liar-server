@@ -9,12 +9,11 @@
 
 == 게임
 
-=== 게임 생성
+=== 게임룸 생성
 
 operation::game/create[snippets='http-request,http-response']
 
-
-=== 게임 입장
+=== 게임룸 입장
 
 operation::game/entrance[snippets='http-request,http-response']
 
@@ -22,6 +21,7 @@ operation::game/entrance[snippets='http-request,http-response']
 
 operation::game/delete[snippets='http-request,http-response']
 
+== 질문
 
 === 질문 조회
 
