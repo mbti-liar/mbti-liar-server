@@ -1,0 +1,23 @@
+= Mbti Liar Game API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+
+== 게임
+
+=== 게임 생성
+
+operation::game/create[snippets='http-request,http-response']
+
+
+=== 게임 입장
+
+operation::game/entrance[snippets='http-request,http-response']
+
+=== 게임 종료
+
+operation::game/delete[snippets='http-request,http-response']
