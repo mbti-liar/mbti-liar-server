@@ -84,12 +84,18 @@ public class WebSocketClient {
                 game.getCompletedQuestions().add(question);
 
                 // 라이어를 선정해 응답으로 보낸다.
-                Liar liar = gameService.selectLiar(socketMessage.getSharingCode());
-                game.setLiar(liar.getId());
-
                 Map<String, Object> params = new HashMap<>();
+                Liar liar;
+                if (game.getLiarId() == null) {
+                    liar = gameService.selectLiar(socketMessage.getSharingCode());
+                    game.setLiar(liar.getId());
+                } else {
+                    liar = new Liar(game.getLiarId());
+                }
+
                 params.put("questionResponse", question.getQuestion());
                 params.put("liarResponse", liar.getId());
+
                 send(session, socketMessage.getSharingCode(), SocketMessageType.GAME_START, objectMapper.writeValueAsString(params));
                 break;
             case REQUEST_VOTE_PROGRESS:
