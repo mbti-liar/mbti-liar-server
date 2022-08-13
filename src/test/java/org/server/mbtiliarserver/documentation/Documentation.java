@@ -20,6 +20,7 @@ public class Documentation {
     int port;
     protected static final ObjectMapper objectMapper = new ObjectMapper();
     protected RequestSpecification spec;
+
     protected RequestSpecification given() {
         return RestAssured.given(spec).log().all();
     }
