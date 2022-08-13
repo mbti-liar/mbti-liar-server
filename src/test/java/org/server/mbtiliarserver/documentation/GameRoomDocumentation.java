@@ -1,10 +1,8 @@
 package org.server.mbtiliarserver.documentation;
 
-import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
-import org.server.mbtiliarserver.game.application.GameService;
-import org.server.mbtiliarserver.game.application.dto.GameResponse;
+import org.server.mbtiliarserver.game.application.GameRoomService;
+import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 
@@ -19,11 +17,11 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 public class GameRoomDocumentation extends Documentation {
 
     @MockBean
-    private GameService gameService;
+    private GameRoomService gameService;
 
     @Test
     void create() {
-        when(gameService.create()).thenReturn(new GameResponse("K12JQx"));
+        when(gameService.create()).thenReturn(new GameRoomResponse("K12JQx"));
 
         given()
             .filter(document("game/create",

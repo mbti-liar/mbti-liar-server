@@ -1,11 +1,11 @@
 package org.server.mbtiliarserver.game.application;
 
-import org.server.mbtiliarserver.game.application.dto.GameResponse;
+import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GameService {
-    public GameResponse create() {
+public class GameRoomService {
+    public GameRoomResponse create() {
         return null;
     }
 

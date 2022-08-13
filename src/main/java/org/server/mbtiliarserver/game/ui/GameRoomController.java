@@ -1,7 +1,7 @@
 package org.server.mbtiliarserver.game.ui;
 
-import org.server.mbtiliarserver.game.application.GameService;
-import org.server.mbtiliarserver.game.application.dto.GameResponse;
+import org.server.mbtiliarserver.game.application.GameRoomService;
+import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,17 +14,17 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("games")
-public class GameController {
+public class GameRoomController {
 
-    private final GameService gameService;
+    private final GameRoomService gameService;
 
-    public GameController(GameService gameService) {
+    public GameRoomController(GameRoomService gameService) {
         this.gameService = gameService;
     }
 
     @PostMapping
     public ResponseEntity<Void> create() {
-        GameResponse gameResponse = gameService.create();
+        GameRoomResponse gameResponse = gameService.create();
         return ResponseEntity.created(URI.create("/games/" + gameResponse.getSharingCode())).build();
     }
 

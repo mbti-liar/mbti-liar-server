@@ -1,9 +1,9 @@
 package org.server.mbtiliarserver.game.application.dto;
 
-public class GameResponse {
+public class GameRoomResponse {
     private String sharingCode;
 
-    public GameResponse(String sharingCode) {
+    public GameRoomResponse(String sharingCode) {
         this.sharingCode = sharingCode;
     }
 
