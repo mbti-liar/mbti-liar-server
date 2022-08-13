@@ -2,8 +2,8 @@ package org.server.mbtiliarserver.question.domain;
 
 public class Question {
 
-    Long id;
-    String question;
+    private Long id;
+    private String question;
 
     public Question(Long id, String question) {
         this.id = id;
