@@ -35,9 +35,7 @@ public class GameRoomDocumentation extends Documentation {
             extract();
     }
 
-    private RequestSpecification given() {
-        return RestAssured.given(spec).log().all();
-    }
+
 
     @Test
     void entrance() {

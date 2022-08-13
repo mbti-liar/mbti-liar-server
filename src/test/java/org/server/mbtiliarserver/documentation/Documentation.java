@@ -20,6 +20,10 @@ public class Documentation {
 
     protected RequestSpecification spec;
 
+    protected RequestSpecification given() {
+        return RestAssured.given(spec).log().all();
+    }
+
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
