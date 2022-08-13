@@ -3,6 +3,7 @@ package org.server.mbtiliarserver.game.application;
 import org.server.mbtiliarserver.game.domain.Game;
 import org.server.mbtiliarserver.game.domain.GameRepository;
 import org.server.mbtiliarserver.game.domain.Liar;
+import org.server.mbtiliarserver.game.domain.Penalty;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,5 +34,9 @@ public class GameService {
     public Liar selectLiar(String sharingCode) {
         Game game = gameRepository.findBySharingCode(sharingCode).orElseThrow(IllegalArgumentException::new);
         return new Liar(game.getParticipants().get(0).getId());
+    }
+
+    public Penalty getPenalty() {
+        return null;
     }
 }

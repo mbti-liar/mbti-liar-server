@@ -5,6 +5,7 @@ import org.server.mbtiliarserver.game.application.GameService;
 import org.server.mbtiliarserver.game.domain.Game;
 import org.server.mbtiliarserver.game.domain.Liar;
 import org.server.mbtiliarserver.game.domain.Participant;
+import org.server.mbtiliarserver.game.domain.Penalty;
 import org.server.mbtiliarserver.question.application.QuestionService;
 import org.server.mbtiliarserver.question.domain.Question;
 import org.slf4j.Logger;
@@ -125,9 +126,22 @@ public class WebSocketClient {
                             }
                         }
                     );
+                    long selectedUser = 0L;
+                    int vote = 0;
+                    for (Map.Entry<Long, Integer> entry : result.entrySet()) {
+                        if (vote < entry.getValue()) {
+                            selectedUser = entry.getKey();
+                            vote = entry.getValue();
+                        }
+                    }
+                    Penalty penalty = gameService.getPenalty();
+
+                    Map<String, Object> resultParams = new HashMap<>();
+                    resultParams.put("selectedUser", selectedUser);
+                    resultParams.put("penalty", penalty.getPenalty());
                     // 게임을 종료한다.
                     gameService.delete(socketMessage.getSharingCode());
-                    send(session, socketMessage.getSharingCode(), SocketMessageType.END, null);
+                    send(session, socketMessage.getSharingCode(), SocketMessageType.END, objectMapper.writeValueAsString(resultParams));
                 }
                 break;
         }
