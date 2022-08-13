@@ -1,15 +1,21 @@
 package org.server.mbtiliarserver.game.application;
 
-import org.server.mbtiliarserver.game.application.dto.GameRequest;
 import org.server.mbtiliarserver.game.application.dto.GameResponse;
-import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
 import org.server.mbtiliarserver.game.domain.Game;
+import org.server.mbtiliarserver.game.domain.GameRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 public class GameService {
+
+    private final GameRepository gameRepository;
+
+    public GameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
+
     public GameResponse start(String sharingCode) {
         return null;
     }
