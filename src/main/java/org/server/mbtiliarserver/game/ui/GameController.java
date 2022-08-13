@@ -24,9 +24,9 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @PostMapping
-    public ResponseEntity<GameResponse> start(@RequestBody GameRequest gameRequest) {
-        return ResponseEntity.ok(gameService.start(gameRequest));
+    @PostMapping("/{sharingCode}")
+    public ResponseEntity<GameResponse> start(@PathVariable String sharingCode) {
+        return ResponseEntity.ok(gameService.start(sharingCode));
     }
 
     @PostMapping("rooms")

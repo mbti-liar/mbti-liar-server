@@ -3,13 +3,13 @@ package org.server.mbtiliarserver.game.application.dto;
 import java.util.List;
 
 public class ParticipantsResponse {
-    private List<ParticipantResponse> participantResponses;
+    private List<ParticipantResponse> participantsResponse;
 
-    public ParticipantsResponse(List<ParticipantResponse> participantResponses) {
-        this.participantResponses = participantResponses;
+    public ParticipantsResponse(List<ParticipantResponse> participantsResponse) {
+        this.participantsResponse = participantsResponse;
     }
 
     public List<ParticipantResponse> getParticipantResponses() {
-        return participantResponses;
+        return participantsResponse;
     }
 }

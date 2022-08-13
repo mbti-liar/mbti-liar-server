@@ -46,25 +46,23 @@ public class GameDocumentation extends Documentation {
     @Test
     void start() {
         long liarId = 1L;
+        String sharingCode = "AD2Dsc";
         LiarResponse liarResponse = new LiarResponse(liarId);
         MbtiResponse mbtiResponse = new MbtiResponse(Personality.EXTROVERSION, Sense.SENSING, Decision.FEELING, Judgment.JUDGING);
-
         ParticipantsResponse participantsResponse = new ParticipantsResponse(Arrays.asList(new ParticipantResponse(3L), new ParticipantResponse(2L)));
+
         GameResponse gameResponse = new GameResponse(liarResponse, mbtiResponse, participantsResponse);
+
         when(gameService.start(any())).thenReturn(gameResponse);
 
-        Map<String, String> params = new HashMap<>();
-        params.put("roomId", "2");
-
         given()
-            .body(params)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .filter(
                 document("game/start",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()))
             ).when()
-            .post("games")
+            .post("games/{sharingCode}", sharingCode)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract();
@@ -80,7 +78,7 @@ public class GameDocumentation extends Documentation {
 
         PenaltyResponse 벌칙받는_사람 = new PenaltyResponse(2L, "술 마시기");
         PenaltiesResponse value = new PenaltiesResponse(List.of(벌칙받는_사람));
-        when(voterService.voteLiar(any(), sharingCode)).thenReturn(value);
+        when(voterService.voteLiar(any(), any())).thenReturn(value);
 
         Map<String, String> params = new HashMap<>();
         params.put("votesRequest", objectMapper.writeValueAsString(votesRequest));
@@ -92,7 +90,7 @@ public class GameDocumentation extends Documentation {
                 document("vote/liar",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()))
-            ).when().post("votes/liar")
+            ).when().post("votes/liar/{sharingCode}", sharingCode)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract();
@@ -102,7 +100,7 @@ public class GameDocumentation extends Documentation {
     void voteProgress() throws JsonProcessingException {
         String sharingCode = "ABD23K";
         ProgressResponse value = new ProgressResponse(true);
-        when(voterService.voteProgress(any(), sharingCode)).thenReturn(value);
+        when(voterService.voteProgress(any(), any())).thenReturn(value);
 
         VoteRequest<Boolean> 첫_번째_투표 = new VoteRequest<>(1L, true);
         VoteRequest<Boolean> 두_번쨰_투표 = new VoteRequest<>(2L, false);
@@ -119,7 +117,7 @@ public class GameDocumentation extends Documentation {
                 document("vote/progress",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()))
-            ).when().post("votes/progress")
+            ).when().post("votes/progress/{sharingCode}", sharingCode)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract();

@@ -27,7 +27,7 @@ public class QuestionDocumentation extends Documentation {
             .filter(document("questions",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint())))
-            .when().get("/questions")
+            .when().get("/questions/{sharingCode}", sharingCode)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract();

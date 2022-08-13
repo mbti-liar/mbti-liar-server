@@ -18,4 +18,8 @@ public class GameResponse {
     public MbtiResponse getMbtiResponse() {
         return mbtiResponse;
     }
+
+    public ParticipantsResponse getParticipantsResponse() {
+        return participantsResponse;
+    }
 }
