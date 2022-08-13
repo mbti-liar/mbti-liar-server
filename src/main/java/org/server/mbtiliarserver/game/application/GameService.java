@@ -6,6 +6,8 @@ import org.server.mbtiliarserver.game.application.dto.GameRoomResponse;
 import org.server.mbtiliarserver.game.domain.Game;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class GameService {
     public GameResponse start(String sharingCode) {
@@ -13,7 +15,8 @@ public class GameService {
     }
 
     public GameRoomResponse create() {
-        return null;
+        String uuid = UUID.randomUUID().toString();
+        return new GameRoomResponse(uuid.substring(0, 5));
     }
 
     public void entrance(String sharingCode) {
