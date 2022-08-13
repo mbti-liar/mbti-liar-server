@@ -39,7 +39,7 @@ public class GameRoomDocumentation extends Documentation {
         doNothing().when(gameService).entrance(any());
 
         given()
-            .filter(document("game/rooms/entrance",
+            .filter(document("game/entrance",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint())))
             .when().get("/games/rooms/{sharingCode}", "K12JQx")
@@ -53,7 +53,7 @@ public class GameRoomDocumentation extends Documentation {
         doNothing().when(gameService).delete(any());
 
         given()
-            .filter(document("game/rooms/delete",
+            .filter(document("game/delete",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint())))
             .when().delete("/games/rooms/{sharingCode}", "K12JQx")
