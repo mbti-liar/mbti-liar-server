@@ -2,7 +2,7 @@ package org.server.mbtiliarserver.game.domain;
 
 public class Penalty {
 
-    String penalty;
+    private String penalty;
 
     public Penalty(String penalty) {
         this.penalty = penalty;
