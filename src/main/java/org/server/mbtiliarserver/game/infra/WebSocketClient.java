@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.server.mbtiliarserver.game.application.GameService;
 import org.server.mbtiliarserver.game.application.LiarService;
 import org.server.mbtiliarserver.game.application.VoterService;
-import org.server.mbtiliarserver.game.application.dto.LiarResponse;
 import org.server.mbtiliarserver.game.domain.Game;
+import org.server.mbtiliarserver.game.domain.Liar;
 import org.server.mbtiliarserver.game.domain.Participant;
 import org.server.mbtiliarserver.question.application.QuestionService;
-import org.server.mbtiliarserver.question.application.dto.QuestionResponse;
+import org.server.mbtiliarserver.question.domain.Question;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,10 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -75,19 +77,24 @@ public class WebSocketClient {
             case ENTRANCE:
                 // 입장하면 방 코드 번호와 아이디를 부여받는다.
                 requireNonNull(game).getParticipants().add(new Participant(findSession(session).getId(), socketMessage.getMessage()));
-                gameService.entrance(socketMessage.getSharingCode());
                 send(session, socketMessage.getSharingCode(), SocketMessageType.ENTRANCE, null);
                 break;
             case GAME_START:
                 // 메시지를 받은 참여자들은 게임을 시작한다.
                 // 질문을 응답으로 보낸다.
-                QuestionResponse questionResponse = questionService.getQuestion(socketMessage.getSharingCode());
+                List<Question> questions = questionService.getQuestions();
+                Game finalGame = game;
+                List<Question> collect = questions.stream().filter(question -> !finalGame.getCompletedQuestions().contains(question)).collect(Collectors.toList());
+                Question question = collect.get(0);
+                game.getCompletedQuestions().add(question);
+
                 // 라이어를 선정해 응답으로 보낸다.
-                LiarResponse liarResponse = liarService.selectLiar(socketMessage.getSharingCode());
+                Liar liar = liarService.selectLiar(socketMessage.getSharingCode());
+                game.setLiar(liar.getId());
 
                 Map<String, Object> params = new HashMap<>();
-                params.put("questionResponse", questionResponse);
-                params.put("liarResponse", liarResponse);
+                params.put("questionResponse", question.getQuestion());
+                params.put("liarResponse", liar.getId());
                 send(session, socketMessage.getSharingCode(), SocketMessageType.GAME_START, objectMapper.writeValueAsString(params));
                 break;
             case REQUEST_VOTE_PROGRESS:

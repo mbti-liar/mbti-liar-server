@@ -79,4 +79,8 @@ public class Game {
     public String getSharingCode() {
         return sharingCode;
     }
+
+    public void setLiar(Long liarId) {
+        this.liarId = liarId;
+    }
 }
