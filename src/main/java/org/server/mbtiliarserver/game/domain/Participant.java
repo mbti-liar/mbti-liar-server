@@ -3,18 +3,18 @@ package org.server.mbtiliarserver.game.domain;
 public class Participant {
 
     Long id;
-    String participant;
+    String nickName;
 
-    public Participant(Long id, String participant) {
+    public Participant(Long id, String nickName) {
         this.id = id;
-        this.participant = participant;
+        this.nickName = nickName;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getParticipant() {
-        return participant;
+    public String getNickName() {
+        return nickName;
     }
 }

@@ -10,11 +10,11 @@ class ParticipantTest {
     @Test
     void name() {
         Long id = 1L;
-        String 참가자 = "최정은";
+        String 닉네임 = "최정은";
 
-        Participant participant = new Participant(id, 참가자);
+        Participant participant = new Participant(id, 닉네임);
 
         Assertions.assertThat(participant.getId()).isEqualTo(id);
-        Assertions.assertThat(participant.getParticipant()).isEqualTo(참가자);
+        Assertions.assertThat(participant.getNickName()).isEqualTo(닉네임);
     }
 }
