@@ -4,14 +4,14 @@ import org.server.mbtiliarserver.game.domain.Game;
 import org.server.mbtiliarserver.game.domain.GameRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryGameRepository implements GameRepository {
 
-    private final static Map<String, Game> gameMap = new HashMap<>();
+    private final static Map<String, Game> gameMap = new ConcurrentHashMap<>();
 
     @Override
     public Game save(Game game) {

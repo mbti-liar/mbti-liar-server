@@ -52,7 +52,7 @@ public class WebSocketClient {
     @OnOpen
     public void onOpen(Session s) {
         log.info("open session : {}", s);
-        clients.add(new GameSession(getSequence(), s));
+        clients.add(new GameSession(getSequence(), null, s));
     }
 
     @OnMessage
@@ -69,6 +69,7 @@ public class WebSocketClient {
             case CREATE:
                 // 방 생성을 요청하면 방을 생성하고, 방 코드를 부여한다.
                 requireNonNull(game).getParticipants().add(new Participant(findSession(session).getId(), socketMessage.getMessage()));
+                findSession(session).setNickname(socketMessage.getMessage());
                 send(session, game.getSharingCode(), SocketMessageType.CREATE, null);
                 break;
             case ENTRANCE:
@@ -80,12 +81,17 @@ public class WebSocketClient {
                 // 메시지를 받은 참여자들은 게임을 시작한다.
                 // 질문을 응답으로 보낸다.
                 List<Question> questions = questionService.getQuestions();
-                Game finalGame = game;
-                List<Question> collect = questions.stream().filter(question -> !finalGame.getCompletedQuestions().contains(question)).collect(Collectors.toList());
+                List<Question> collect;
+                if (game == null) {
+                    collect = questions;
+                } else {
+                    Game finalGame = game;
+                    collect = questions.stream().filter(question -> !finalGame.getCompletedQuestions().contains(question)).collect(Collectors.toList());
+                }
                 int questionIdx = random.nextInt(collect.size());
                 Question question = collect.get(questionIdx);
 
-                game.getCompletedQuestions().add(question);
+                requireNonNull(game).getCompletedQuestions().add(question);
 
                 // 라이어를 선정해 응답으로 보낸다.
                 Map<String, Object> params = new HashMap<>();
@@ -164,7 +170,7 @@ public class WebSocketClient {
     }
 
     private void send(Session session, String sharingCode, SocketMessageType type, String message) throws IOException {
-        SocketMessage socketMessage = new SocketMessage(sharingCode, type, findSession(session).getId(), message);
+        SocketMessage socketMessage = new SocketMessage(sharingCode, type, findSession(session).getId(), message, findSession(session).getNickname());
         for (GameSession s : clients) {
             log.info("send session : {}", socketMessage);
             s.getSession().getBasicRemote().sendText(objectMapper.writeValueAsString(socketMessage));

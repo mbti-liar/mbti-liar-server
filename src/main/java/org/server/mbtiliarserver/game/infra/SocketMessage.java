@@ -6,14 +6,17 @@ public class SocketMessage {
     private Long userId;
     private String message;
 
+    private String nickname;
+
     public SocketMessage() {
     }
 
-    public SocketMessage(String sharingCode, SocketMessageType type, Long userId, String message) {
+    public SocketMessage(String sharingCode, SocketMessageType type, Long userId, String message, String nickname) {
         this.sharingCode = sharingCode;
         this.type = type;
         this.userId = userId;
         this.message = message;
+        this.nickname = nickname;
     }
 
     public String getSharingCode() {
@@ -30,5 +33,9 @@ public class SocketMessage {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }

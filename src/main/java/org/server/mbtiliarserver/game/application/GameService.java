@@ -6,7 +6,6 @@ import org.server.mbtiliarserver.game.domain.Liar;
 import org.server.mbtiliarserver.game.domain.Penalty;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
@@ -29,7 +28,7 @@ public class GameService {
     public Game create(String sharingCode) {
         double random = Math.random();
         int idx = (int) Math.round(random * (mbti.length - 1));
-        return gameRepository.save(new Game(mbti[idx], null, true, new ArrayList<>(), new ArrayList<>(), 0L, new ArrayList<>(), new ArrayList<>(), sharingCode));
+        return gameRepository.save(new Game(mbti[idx], null, true, 0L, sharingCode));
     }
 
     public void delete(String sharingCode) {

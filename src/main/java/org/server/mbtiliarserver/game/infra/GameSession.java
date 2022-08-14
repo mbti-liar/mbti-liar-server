@@ -6,10 +6,12 @@ import java.util.Objects;
 
 public class GameSession {
     private long id;
+    private String nickname;
     private Session session;
 
-    public GameSession(long id, Session session) {
+    public GameSession(long id, String nickname, Session session) {
         this.id = id;
+        this.nickname = nickname;
         this.session = session;
     }
 
@@ -19,6 +21,10 @@ public class GameSession {
 
     public Session getSession() {
         return session;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     @Override
@@ -32,5 +38,9 @@ public class GameSession {
     @Override
     public int hashCode() {
         return Objects.hash(getSession());
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
