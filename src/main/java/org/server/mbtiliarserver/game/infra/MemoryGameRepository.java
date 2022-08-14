@@ -20,7 +20,7 @@ public class MemoryGameRepository implements GameRepository {
 
     @Override
     public Optional<Game> findBySharingCode(String sharingCode) {
-        return Optional.of(gameMap.get(sharingCode));
+        return Optional.ofNullable(gameMap.get(sharingCode));
     }
 
     @Override

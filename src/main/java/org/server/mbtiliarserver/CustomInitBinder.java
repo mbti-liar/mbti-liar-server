@@ -28,7 +28,7 @@ public class CustomInitBinder {
         "주중에 회사에서 일한 당신 주말에는 무엇을 할 것인가요?",
         " 약속을 앞두고 준비를 어떻게 하나요?"};
 
-    @InitBinder
+//    @InitBinder
     public void loadData() {
         Arrays.stream(questions)
             .map(s -> new Question(null, s))

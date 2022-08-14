@@ -8,6 +8,7 @@ import org.server.mbtiliarserver.game.domain.Participant;
 import org.server.mbtiliarserver.game.domain.Penalty;
 import org.server.mbtiliarserver.question.application.QuestionService;
 import org.server.mbtiliarserver.question.domain.Question;
+import org.server.mbtiliarserver.question.infra.MemoryQuestionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -33,20 +34,19 @@ import static java.util.Objects.requireNonNull;
 @ServerEndpoint(value = "/games")
 public class WebSocketClient {
     private static final Logger log = LoggerFactory.getLogger(WebSocketClient.class);
-    private static final Random random = new Random();
-    private final ObjectMapper objectMapper;
-    private final GameService gameService;
-    private final QuestionService questionService;
-    private static Long sequence = 0L;
+    private final static Random random = new Random();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final GameService gameService = new GameService(new MemoryGameRepository());
+    private final QuestionService questionService = new QuestionService(new MemoryQuestionRepository());
+
+    private static long sequence = 0L;
+
+    private synchronized long getSequence() {
+        return sequence++;
+    }
 
     private static final Set<GameSession> clients =
         Collections.synchronizedSet(new HashSet<>());
-
-    public WebSocketClient(ObjectMapper objectMapper, GameService gameService, QuestionService questionService) {
-        this.objectMapper = objectMapper;
-        this.gameService = gameService;
-        this.questionService = questionService;
-    }
 
 
     @OnOpen
@@ -61,9 +61,10 @@ public class WebSocketClient {
         SocketMessage socketMessage = objectMapper.readValue(msg, SocketMessage.class);
         Game game = null;
         if (socketMessage.getSharingCode() != null) {
-            game = gameService.findGame(socketMessage.getSharingCode());
+            game = gameService.findGame(socketMessage.getSharingCode()).orElse(gameService.create(socketMessage.getSharingCode()));
         }
 
+        log.info("game is {}", game);
         switch (socketMessage.getType()) {
             case CREATE:
                 // 방 생성을 요청하면 방을 생성하고, 방 코드를 부여한다.
@@ -152,41 +153,30 @@ public class WebSocketClient {
                     // 게임을 종료한다.
                     gameService.delete(socketMessage.getSharingCode());
                     send(session, socketMessage.getSharingCode(), SocketMessageType.END, objectMapper.writeValueAsString(resultParams));
+
                 }
                 break;
         }
 
     }
 
+    private GameSession findSession(Session session) {
+        return clients.stream().filter(gameSession -> gameSession.getSession().equals(session)).findFirst().orElseThrow(IllegalArgumentException::new);
+    }
+
     private void send(Session session, String sharingCode, SocketMessageType type, String message) throws IOException {
-        sendMessage(objectMapper.writeValueAsString(getResponse(sharingCode, type, session, message)));
-    }
-
-    private SocketMessage getResponse(String socketMessage, SocketMessageType entrance, Session session, String message) {
-        return new SocketMessage(socketMessage, entrance, findSession(session).getId(), message);
-    }
-
-    private void sendMessage(String msg) throws IOException {
+        SocketMessage socketMessage = new SocketMessage(sharingCode, type, findSession(session).getId(), message);
         for (GameSession s : clients) {
-            log.info("send session : {}", msg);
-            s.getSession().getBasicRemote().sendText(msg);
+            log.info("send session : {}", socketMessage);
+            s.getSession().getBasicRemote().sendText(objectMapper.writeValueAsString(socketMessage));
         }
     }
+
 
     @OnClose
     public void onClose(Session s) {
         log.info("close session : {}", s);
-        GameSession session = findSession(s);
-        clients.remove(session);
+        clients.remove(findSession(s));
     }
 
-    private GameSession findSession(Session s) {
-        return clients.stream()
-            .filter(gameSession -> gameSession.getSession().equals(s))
-            .findFirst().orElseThrow(IllegalArgumentException::new);
-    }
-
-    private synchronized Long getSequence() {
-        return sequence++;
-    }
 }

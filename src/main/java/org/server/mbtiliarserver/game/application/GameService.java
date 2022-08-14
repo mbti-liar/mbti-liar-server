@@ -7,6 +7,7 @@ import org.server.mbtiliarserver.game.domain.Penalty;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -35,8 +36,8 @@ public class GameService {
         gameRepository.delete(sharingCode);
     }
 
-    public Game findGame(String sharingCode) {
-        return gameRepository.findBySharingCode(sharingCode).orElseThrow(IllegalArgumentException::new);
+    public Optional<Game> findGame(String sharingCode) {
+        return gameRepository.findBySharingCode(sharingCode);
     }
 
     public Liar selectLiar(String sharingCode) {

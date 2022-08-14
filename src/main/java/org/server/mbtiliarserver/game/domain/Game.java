@@ -21,9 +21,6 @@ public class Game {
         if(mbtiCard == null || mbtiCard.isBlank()){
             throw new mbtiCardNotNullAndBlankException("mbtiCard는 비어 있을 수 없습니다.");
         }
-        if(liarId == null){
-            throw new IllegalArgumentException();
-        }
 
         this.mbtiCard = mbtiCard;
         this.liarId = liarId;
