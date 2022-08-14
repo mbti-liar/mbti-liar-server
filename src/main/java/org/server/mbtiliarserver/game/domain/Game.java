@@ -77,4 +77,19 @@ public class Game {
     public void setLiar(Long liarId) {
         this.liarId = liarId;
     }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+            "mbtiCard='" + mbtiCard + '\'' +
+            ", liarId=" + liarId +
+            ", gameProgress=" + gameProgress +
+            ", participants=" + participants +
+            ", completedQuestions=" + completedQuestions +
+            ", requestCount=" + requestCount +
+            ", votes=" + votes +
+            ", selectedParticipants=" + selectedParticipants +
+            ", sharingCode='" + sharingCode + '\'' +
+            '}';
+    }
 }

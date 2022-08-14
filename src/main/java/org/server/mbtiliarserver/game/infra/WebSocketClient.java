@@ -64,13 +64,13 @@ public class WebSocketClient {
             game = gameService.findGame(socketMessage.getSharingCode()).orElse(gameService.create(socketMessage.getSharingCode()));
         }
 
-        log.info("game is {}", game);
         switch (socketMessage.getType()) {
             case CREATE:
                 // 방 생성을 요청하면 방을 생성하고, 방 코드를 부여한다.
                 requireNonNull(game).getParticipants().add(new Participant(findSession(session).getId(), socketMessage.getMessage()));
                 findSession(session).setNickname(socketMessage.getMessage());
                 send(session, game.getSharingCode(), SocketMessageType.CREATE, null);
+                log.info("game is {}", game);
                 break;
             case ENTRANCE:
                 // 입장하면 방 코드 번호와 아이디를 부여받는다.
