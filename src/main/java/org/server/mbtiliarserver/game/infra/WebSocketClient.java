@@ -68,7 +68,6 @@ public class WebSocketClient {
         switch (socketMessage.getType()) {
             case CREATE:
                 // 방 생성을 요청하면 방을 생성하고, 방 코드를 부여한다.
-                game = gameService.create(socketMessage.getSharingCode());
                 requireNonNull(game).getParticipants().add(new Participant(findSession(session).getId(), socketMessage.getMessage()));
                 send(session, game.getSharingCode(), SocketMessageType.CREATE, null);
                 break;
